@@ -1,0 +1,101 @@
+<div class="text-center py-5">
+  <h1 class="display-5 fw-bold"><%= ENV.fetch("APP_NAME", "UnityUpdates Demo") %></h1>
+  <p class="lead text-muted mt-2"><%= ENV.fetch("APP_TAGLINE", "") %></p>
+  <p class="text-muted mx-auto mt-3" style="max-width: 640px;">
+    Writing for a community you live in is frightening, and the hard part is not the writing. It is knowing which
+    of the things you heard you can stand behind. Put in your reporting notes and the sources you have. The source
+    check lists every factual claim with its sourcing, says how to firm up the weak ones, and tells you who is
+    affected but not heard. It never writes the story, never invents a source, and never says whether a claim is
+    true. You write every word.
+  </p>
+  <div class="mt-4 d-flex justify-content-center gap-3">
+    <% if signed_in? %>
+      <%= link_to "Go to my story drafts", story_drafts_path, class: "btn btn-primary btn-lg" %>
+    <% else %>
+      <%= link_to "Try it free", sign_up_path, class: "btn btn-primary btn-lg" %>
+      <%= link_to "Sign in", sign_in_path, class: "btn btn-outline-secondary btn-lg" %>
+    <% end %>
+  </div>
+</div>
+
+<hr class="my-5 opacity-25">
+
+<div class="mx-auto" style="max-width: 900px;">
+  <h2 class="h5 text-muted text-center mb-4">Example: a fictional neighborhood association&rsquo;s garden story</h2>
+
+  <div class="card mb-3">
+    <div class="card-body">
+      <p class="text-muted small mb-1">The notes <span class="story-label ms-1">Reported</span></p>
+      <p class="mb-2 fst-italic notes-text">The board voted 5-2 on March 12 to put the Fenwick Street garden lot up for sale.
+The lot was appraised at $84,000 last year.
+Gardeners were not told before the vote. Several are furious and say the board rushed it through.</p>
+      <p class="text-muted small mb-0">Sources: Board minutes, March 12 meeting (document) &middot; Ines Calloway, treasurer (interview)</p>
+    </div>
+  </div>
+
+  <div class="table-responsive mb-3">
+    <table class="table table-sm align-top mb-0">
+      <thead>
+        <tr class="small text-muted">
+          <th scope="col">Claim, as written</th>
+          <th scope="col">Sourcing</th>
+          <th scope="col">To firm it up</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="claim-text">The board voted 5-2 on March 12 to put the Fenwick Street garden lot up for sale.</td>
+          <td><span class="claim-state claim-state-sourced">Sourced</span></td>
+          <td class="small">Check the 5-2 count against the roll call in the minutes.</td>
+        </tr>
+        <tr>
+          <td class="claim-text">The lot was appraised at $84,000 last year.</td>
+          <td><span class="claim-state claim-state-unsourced">Unsourced</span></td>
+          <td class="small">Ask the treasurer for the appraisal report itself.</td>
+        </tr>
+        <tr>
+          <td class="claim-text">Gardeners were not told before the vote.</td>
+          <td><span class="claim-state claim-state-unsourced">Unsourced</span></td>
+          <td class="small">Ask two or three gardeners when they first heard.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="row g-4 small">
+    <div class="col-md-4">
+      <h3 class="h6 section-rule">Affected but not heard</h3>
+      <ul class="mb-0">
+        <li>Gardeners who grow food on the lot</li>
+      </ul>
+    </div>
+    <div class="col-md-4">
+      <h3 class="h6 section-rule">Words that lean</h3>
+      <ul class="mb-0">
+        <li><strong>&ldquo;furious&rdquo;</strong>: a strong feeling stated as fact</li>
+        <li><strong>&ldquo;rushed it through&rdquo;</strong>: a judgement the dates would show</li>
+      </ul>
+    </div>
+    <div class="col-md-4">
+      <h3 class="h6 section-rule">Questions to ask</h3>
+      <ul class="mb-0">
+        <li>Who did the appraisal, and can you see the report?</li>
+        <li>Were other ways to pay for the roof discussed?</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="text-center text-muted small mt-4">
+    AI-generated. A checklist, not a ruling: it never says whether a claim is true, and it never writes the story.
+  </p>
+</div>
+
+<div class="text-center mt-5 pb-4">
+  <% unless signed_in? %>
+    <%= link_to "Check your own notes &rarr;".html_safe, sign_up_path, class: "btn btn-primary" %>
+  <% end %>
+  <div class="mt-3 text-muted small">
+    Open source &middot;
+    <a href="https://unityupdates.com" class="text-muted">UnityUpdates</a>
+  </div>
+</div>

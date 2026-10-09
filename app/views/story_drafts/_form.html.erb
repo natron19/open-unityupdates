@@ -1,0 +1,70 @@
+<div style="max-width: 760px;">
+  <%= form_with model: story_draft,
+        data: { controller: "form-submit", action: "submit->form-submit#disable" } do |f| %>
+
+    <% if story_draft.errors.any? %>
+      <div class="alert alert-danger">
+        <ul class="mb-0">
+          <% story_draft.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="mb-3">
+      <%= f.label :headline, "Working headline", class: "form-label" %>
+      <%= f.text_field :headline, maxlength: StoryDraft::HEADLINE_MAX,
+            class: "form-control #{'is-invalid' if story_draft.errors[:headline].any?}",
+            placeholder: "What the story is about, in a line" %>
+      <% if story_draft.errors[:headline].any? %>
+        <div class="invalid-feedback"><%= story_draft.errors[:headline].first %></div>
+      <% end %>
+    </div>
+
+    <div class="row g-3 mb-3">
+      <div class="col-md-6">
+        <%= f.label :label, "Label", class: "form-label" %>
+        <%= f.select :label,
+              StoryDraft::LABELS.map { |l| [StoryDraft::LABEL_OPTIONS[l], l] },
+              {}, class: "form-select #{'is-invalid' if story_draft.errors[:label].any?}" %>
+        <% if story_draft.errors[:label].any? %>
+          <div class="invalid-feedback"><%= story_draft.errors[:label].first %></div>
+        <% end %>
+      </div>
+      <div class="col-md-6">
+        <%= f.label :beat, "Beat", class: "form-label" %>
+        <%= f.text_field :beat, maxlength: StoryDraft::BEAT_MAX,
+              class: "form-control #{'is-invalid' if story_draft.errors[:beat].any?}",
+              placeholder: "Optional, e.g. \"The building fund\"" %>
+        <% if story_draft.errors[:beat].any? %>
+          <div class="invalid-feedback"><%= story_draft.errors[:beat].first %></div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :notes, "Your reporting notes", class: "form-label" %>
+      <%= f.text_area :notes, rows: 9, maxlength: StoryDraft::NOTES_RANGE.max,
+            class: "form-control #{'is-invalid' if story_draft.errors[:notes].any?}",
+            placeholder: "What you know so far, one fact per line is fine. Who said what, what happened, the numbers." %>
+      <div class="form-text">Your notes, not the story. You write the story; the check only reads what you have.</div>
+      <% if story_draft.errors[:notes].any? %>
+        <div class="invalid-feedback"><%= story_draft.errors[:notes].first %></div>
+      <% end %>
+    </div>
+
+    <div class="mb-4">
+      <%= f.label :sources_text, "Sources", class: "form-label" %>
+      <%= f.text_area :sources_text, rows: 4, maxlength: StoryDraft::SOURCES_MAX,
+            class: "form-control #{'is-invalid' if story_draft.errors[:sources_text].any?}",
+            placeholder: "One per line: who or what, and what kind.\nBoard minutes, March 12 meeting (document)\nThe treasurer (interview)" %>
+      <div class="form-text">Leave it empty if you have none yet; every claim will show as unsourced. The check never adds a source you did not list.</div>
+      <% if story_draft.errors[:sources_text].any? %>
+        <div class="invalid-feedback"><%= story_draft.errors[:sources_text].first %></div>
+      <% end %>
+    </div>
+
+    <%= f.submit "Save draft", class: "btn btn-primary", data: { form_submit_target: "button" } %>
+  <% end %>
+</div>

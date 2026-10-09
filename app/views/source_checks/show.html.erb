@@ -1,0 +1,131 @@
+<% check = @source_check %>
+<div data-controller="download-markdown"
+     data-download-markdown-content-value="<%= check.completed? ? check.to_markdown : '' %>"
+     data-download-markdown-filename-value="<%= check.markdown_filename %>"
+     style="max-width: 980px;">
+
+  <div class="d-flex justify-content-between align-items-start flex-wrap gap-3 masthead mb-3">
+    <div>
+      <p class="text-muted small mb-1">Source check &middot; <span class="story-label"><%= @story_draft.label_name %></span></p>
+      <h1 class="h3 mb-1"><%= @story_draft.headline %></h1>
+      <p class="text-muted small mb-0">
+        <%= link_to "← My story drafts", story_drafts_path, class: "text-muted" %>
+        &nbsp;&middot;&nbsp;
+        <%= link_to "The notes", story_draft_path(@story_draft), class: "text-muted" %>
+        &nbsp;&middot;&nbsp;
+        Generated <%= check.generated_at ? "#{time_ago_in_words(check.generated_at)} ago" : "at an unknown time" %>
+      </p>
+    </div>
+    <div class="d-flex flex-wrap gap-2 align-items-start">
+      <%= link_to "Edit notes", edit_story_draft_path(@story_draft), class: "btn btn-outline-secondary btn-sm" %>
+      <%= render "story_drafts/check_button", story_draft: @story_draft, label: "Check again",
+                 button_class: "btn btn-outline-secondary btn-sm" %>
+      <% if check.completed? %>
+        <button class="btn btn-outline-primary btn-sm" type="button"
+                data-action="click->download-markdown#download">
+          Download .md
+        </button>
+      <% end %>
+      <button class="btn btn-outline-secondary btn-sm" type="button"
+              data-bs-toggle="collapse" data-bs-target="#raw-response"
+              aria-expanded="false" aria-controls="raw-response">
+        Show raw response
+      </button>
+    </div>
+  </div>
+
+  <p class="text-muted small mb-3">
+    <strong>AI-generated.</strong> A checklist, not a ruling: it never says whether a claim is true or whether the
+    story should run, and it never writes the story. It can be wrong. You write every word and decide what to do.
+  </p>
+
+  <% if check.stale? %>
+    <div class="alert alert-warning py-2 small">
+      Your notes have changed since this check. Check again to see the new version.
+    </div>
+  <% end %>
+
+  <% if check.failed? %>
+    <%= render "source_checks/parse_error", story_draft: @story_draft, check: check %>
+  <% elsif check.completed? %>
+    <h2 class="h5 mb-1">Claims</h2>
+    <p class="text-muted small mb-2"><%= check.summary_line %></p>
+    <% if check.claims.any? %>
+      <div class="table-responsive mb-4">
+        <table class="table table-sm align-top mb-0">
+          <thead>
+            <tr class="small text-muted">
+              <th scope="col" style="width: 40%;">Claim, as written</th>
+              <th scope="col">Sourcing</th>
+              <th scope="col">Source</th>
+              <th scope="col" style="width: 30%;">To firm it up</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% check.claims.each do |claim| %>
+              <tr>
+                <td class="claim-text"><%= claim["claim"] %></td>
+                <td><%= render "story_drafts/claim_state", state: claim["state"] %></td>
+                <td class="small"><%= claim["source_name"] == "none" ? content_tag(:span, "none", class: "text-muted fst-italic") : claim["source_name"] %></td>
+                <td class="small"><%= claim["how_to_firm_up"] %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% else %>
+      <p class="text-muted mb-4">No factual claims found in the notes.</p>
+    <% end %>
+
+    <div class="row g-4 mb-4">
+      <div class="col-md-6">
+        <h2 class="h5 mb-2 section-rule">Affected but not heard</h2>
+        <% if check.affected_not_heard.any? %>
+          <ul class="mb-0">
+            <% check.affected_not_heard.each do |who| %>
+              <li class="mb-1"><%= who %></li>
+            <% end %>
+          </ul>
+        <% else %>
+          <p class="text-muted mb-0">Nobody obvious.</p>
+        <% end %>
+      </div>
+      <div class="col-md-6">
+        <h2 class="h5 mb-2 section-rule">Words that lean</h2>
+        <% if check.loaded_words.any? %>
+          <ul class="mb-0">
+            <% check.loaded_words.each do |w| %>
+              <li class="mb-1"><strong>&ldquo;<%= w["word"] %>&rdquo;</strong>: <%= w["why"] %></li>
+            <% end %>
+          </ul>
+        <% else %>
+          <p class="text-muted mb-0">None flagged.</p>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="row g-4 mb-4">
+      <div class="col-md-6">
+        <h2 class="h5 mb-2 section-rule">Questions to ask before you write</h2>
+        <ol class="mb-0">
+          <% check.questions_to_ask.each do |question| %>
+            <li class="mb-1"><%= question %></li>
+          <% end %>
+        </ol>
+      </div>
+      <div class="col-md-6">
+        <h2 class="h5 mb-2 section-rule">Does the label fit?</h2>
+        <p class="mb-0"><span class="story-label me-1"><%= @story_draft.label_name %></span> <%= check.label_fit %></p>
+      </div>
+    </div>
+  <% else %>
+    <p class="text-muted fst-italic">This check is still running&hellip;</p>
+  <% end %>
+
+  <div class="collapse mt-3" id="raw-response">
+    <div class="card card-body">
+      <p class="text-muted small mb-1">Raw response from Gemini:</p>
+      <pre class="small mb-0 text-muted"><%= check.gemini_raw %></pre>
+    </div>
+  </div>
+</div>

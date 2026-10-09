@@ -1,0 +1,42 @@
+<div class="d-flex justify-content-between align-items-center masthead mb-4">
+  <h1 class="h3 mb-0">My story drafts</h1>
+  <%= link_to "New story draft", new_story_draft_path, class: "btn btn-primary btn-sm" %>
+</div>
+
+<% if @story_drafts.empty? %>
+  <div class="text-center py-5">
+    <p class="text-muted mb-3">You haven&rsquo;t started a story yet.</p>
+    <%= link_to "Start your first story draft", new_story_draft_path, class: "btn btn-primary" %>
+  </div>
+<% else %>
+  <div class="row g-3">
+    <% @story_drafts.each do |draft| %>
+      <% check = draft.latest_source_check %>
+      <div class="col-12">
+        <%= link_to story_draft_path(draft), class: "text-decoration-none" do %>
+          <div class="card card-hover">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-start gap-3">
+                <div>
+                  <div class="mb-1"><span class="story-label"><%= draft.label_name %></span></div>
+                  <h2 class="h5 card-title mb-1 text-body"><%= draft.headline %></h2>
+                  <p class="text-muted small mb-0"><%= draft.beat.presence || "No beat" %></p>
+                </div>
+                <div class="text-end small flex-shrink-0">
+                  <% if check&.completed? %>
+                    <div class="text-body mb-1"><%= check.summary_line %></div>
+                    <div class="text-muted">checked <%= time_ago_in_words(check.generated_at) %> ago</div>
+                  <% elsif check&.failed? %>
+                    <div class="text-muted fst-italic">last check could not be read</div>
+                  <% else %>
+                    <div class="text-muted fst-italic">not checked yet</div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

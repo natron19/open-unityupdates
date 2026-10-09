@@ -1,0 +1,122 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css");
+
+/* ── Accent tokens: UnityUpdates ink, newsprint, and a red kept for labels only ───────────────────────── */
+/* Ink (#1f2937) is the production brand colour but disappears on the dark theme, so buttons pair it with a
+   newsprint edge and links use newsprint. Red (#b91c1c) marks story labels and nothing else, as in production. */
+:root {
+  --accent:       #1f2937;
+  --accent-hover: #2b3647;
+  --accent-edge:  #b8b2a3;
+  --accent-text:  #e4dfd2;
+  --label-red:    #b91c1c;
+}
+
+/* Bootstrap dark mode sets its own link/primary values on [data-bs-theme=dark]. */
+:root,
+[data-bs-theme="dark"] {
+  --bs-primary:              #1f2937;
+  --bs-primary-rgb:          31, 41, 55;
+  --bs-link-color:           #e4dfd2;
+  --bs-link-color-rgb:       228, 223, 210;
+  --bs-link-hover-color:     #ffffff;
+  --bs-link-hover-color-rgb: 255, 255, 255;
+  --bs-focus-ring-color:     rgba(184, 178, 163, 0.35);
+}
+
+.btn-primary {
+  --bs-btn-color:                 #f5f2ea;
+  --bs-btn-bg:                    var(--accent);
+  --bs-btn-border-color:          var(--accent-edge);
+  --bs-btn-hover-color:           #ffffff;
+  --bs-btn-hover-bg:              var(--accent-hover);
+  --bs-btn-hover-border-color:    var(--accent-text);
+  --bs-btn-active-bg:             #161d27;
+  --bs-btn-active-border-color:   var(--accent-text);
+  --bs-btn-disabled-bg:           var(--accent);
+  --bs-btn-disabled-border-color: var(--accent-edge);
+  --bs-btn-focus-shadow-rgb:      184, 178, 163;
+}
+
+.btn-outline-primary {
+  --bs-btn-color:               var(--accent-text);
+  --bs-btn-border-color:        var(--accent-edge);
+  --bs-btn-hover-color:         #ffffff;
+  --bs-btn-hover-bg:            var(--accent);
+  --bs-btn-hover-border-color:  var(--accent-text);
+  --bs-btn-active-bg:           var(--accent);
+  --bs-btn-active-border-color: var(--accent-text);
+  --bs-btn-focus-shadow-rgb:    184, 178, 163;
+}
+
+/* ── Editorial headings and rules (the brief's "rules, columns, a masthead") ──────────────────────────── */
+h1, h2, h3, .h1, .h2, .h3, .navbar-brand, .display-5 {
+  font-family: Georgia, "Times New Roman", serif;
+  letter-spacing: 0.01em;
+}
+
+.masthead {
+  border-bottom: 3px double var(--accent-edge);
+  padding-bottom: 0.75rem;
+}
+
+.section-rule {
+  border-top: 1px solid var(--accent-edge);
+  padding-top: 0.5rem;
+}
+
+/* ── Story label: the one place red appears ───────────────────────────────────────────────────────────── */
+.story-label {
+  display: inline-block;
+  color: #ffffff;
+  background: var(--label-red);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.15rem 0.45rem;
+  border-radius: 0.15rem;
+}
+
+/* ── Claim states: flags, not verdicts, so no traffic-light colours ───────────────────────────────────── */
+.claim-state {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.15rem 0.5rem;
+  border-radius: 0.15rem;
+  white-space: nowrap;
+}
+
+.claim-state-sourced {
+  color: var(--accent);
+  background: var(--accent-text);
+  border: 1px solid var(--accent-text);
+}
+
+.claim-state-single_source {
+  color: var(--accent-text);
+  border: 1px solid var(--accent-edge);
+}
+
+.claim-state-unsourced {
+  color: var(--bs-secondary-color);
+  border: 1px dashed var(--bs-secondary-color);
+}
+
+.claim-text {
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+/* ── Card hover affordance ───────────────────────────────────────────────────────────────────────────── */
+.card-hover {
+  transition: border-color 0.15s;
+}
+
+.card-hover:hover {
+  border-color: var(--accent-edge);
+}
+
+.notes-text {
+  white-space: pre-line;
+  line-height: 1.7;
+}

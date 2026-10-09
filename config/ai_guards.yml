@@ -1,0 +1,20 @@
+# Per-app guardrail configuration, read by AiGuardConfig.
+# See docs/ai-guardrails.md (Layer 5: AiOutputGuard) and docs/ai-evals.md.
+
+# Not crisis-aware: the input is a reporter's notes about community news. Notes can mention hard events (a death,
+# a closure), and a crisis-term list would block legitimate reporting about them.
+crisis_terms: []
+
+# Output structure rules per AiTemplate name. Templates not listed get the
+# generic output checks only (non-empty, no prompt leak, no profanity, no new PII).
+#   format:        text | json
+#   required_keys: top-level keys the JSON object must contain
+templates:
+  health_ping:
+    format: text
+  # SourceChecksController#parse_source_check! reads these five keys, all always present (a list may be empty).
+  # The parser also checks the counts, the claim states, that every cited source is in the reporter's list, that
+  # every person named is in the reporter's input, and that every field is one line.
+  unityupdates_source_check_v1:
+    format: json
+    required_keys: [claims, affected_not_heard, loaded_words, questions_to_ask, label_fit]
