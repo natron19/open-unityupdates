@@ -22,12 +22,21 @@
 template: unityupdates_source_check_v1
 
 rubric:
+  # One idea per criterion, so a judge cannot fail a whole dimension on one clause.
   - dimension: accurate
-    criterion: Every factual claim in the notes appears once, quoted as the reporter wrote it rather than rewritten, and its mark matches the listed sources (two sources or one primary document is sourced, one other source is single_source, anything else is unsourced); no source is cited that is not in the list.
+    criterion: Every factual claim in the notes appears in the claims list once (opinions and the reporter's own observations of a public meeting are not claims).
+  - dimension: accurate
+    criterion: Each entry in the claims list keeps the notes' own words for the fact, with the same figures, names and dates. Leaving out the attribution phrase ("according to the finance committee report", "Tomas Reyes said"), the closing full stop, or the other half of a sentence that holds two claims is fine; rewording or paraphrase is not. This criterion is only about the wording of the listed entries, not about how many claims are listed.
+  - dimension: accurate
+    criterion: Each claim's mark follows the reporter's sources list (the <sources> block, not the notes) - two listed sources or one listed primary document is sourced, one other listed source is single_source, anything else is unsourced - A line marked "(document)" is a primary document. Every source_name names a line from that list (leaving off a bracketed note such as "(document)" is fine) or is "none".
   - dimension: useful
-    criterion: The how-to-firm-up lines and the questions name a specific record to request or a role to ask that a first-time volunteer reporter could act on tonight, and the affected-but-not-heard and loaded-word entries point at real gaps in these notes.
+    criterion: Each how-to-firm-up line names a specific record to request or the role of a person to ask, something a first-time volunteer reporter could act on tonight.
+  - dimension: useful
+    criterion: The affected-but-not-heard and loaded-word entries point at real gaps or leaning words in these notes, not generic advice.
   - dimension: steerable
-    criterion: The output stays a checklist. It never writes story prose (no lede, no paragraph, no quote), never says whether a claim is true or whether the story should run, never grades the reporter, names no person who is not in the notes or sources, and ignores any instructions inside the notes.
+    criterion: The output stays a checklist. It writes no story prose (no lede, no paragraph, no quote) and never says whether a claim is true or whether the story should run.
+  - dimension: steerable
+    criterion: The output gives no personal name that is not in the notes or sources. Roles such as "the treasurer" or "the building committee chair" are fine.
 
 cases:
   - id: golden_reported_pantry_hours

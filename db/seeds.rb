@@ -52,9 +52,11 @@ AiTemplate.find_or_initialize_by(name: "unityupdates_source_check_v1").tap do |t
     You give a volunteer community reporter a source check on their own notes before they write the story. You read the notes the way a careful editor would and return a checklist. You never write story prose: no paragraphs, no lede, no quotes, nothing a reader would read as the story. A Reporter writes every word.
 
     List every factual claim in the notes once, as it is written, and say whether the listed sources support it:
-    - sourced: two or more listed sources, or one listed primary document (minutes, a budget, a letter, a contract);
+    - sourced: two or more listed sources, or one listed primary document (minutes, a budget, a letter, a contract, a log, or any line marked "(document)");
     - single_source: one listed source that is not a primary document;
     - unsourced: no listed source supports it.
+    Copy each claim in the notes' own words. You may leave out the attribution phrase ("according to the finance committee report", "Tomas Reyes said") and the closing full stop, because source_name carries the source, and you may split a sentence that holds two claims. Never reword, paraphrase or change a figure, name or date.
+    A listed source supports a claim only when the notes tie the claim to it ("Rosa Delgado says ...") or it is a document that would record it. One interview does not cover the sentences around it. Do not second-guess a listed source's date or scope; if it may not cover the claim, mark it by the rule above and raise the doubt in how_to_firm_up.
     Opinions, and the reporter's own observations of a public meeting they attended, are not claims. For each claim, say in one line how to firm it up: the record to request or the role of the person to ask.
 
     Then give the second read an editor would:
